@@ -27,7 +27,12 @@ try {
   docker compose --project-directory $root restart openclaw-gateway | Out-Null
   $json = docker compose --project-directory $root run --rm openclaw-cli skills info weather --json
   if ($LASTEXITCODE -ne 0) { throw 'OpenClaw could not inspect weather skill' }
-  if ($json -notmatch '/home/node/\.openclaw/workspace/skills/weather') {
+  $skill = ($json -join [Environment]::NewLine) | ConvertFrom-Json
+  if (
+    $skill.source -ne 'openclaw-workspace' -or
+    $skill.bundled -ne $false -or
+    $skill.baseDir -ne '/home/node/.openclaw/workspace/skills/weather'
+  ) {
     throw 'Workspace weather skill did not override the bundled skill'
   }
   Write-Output 'SKILL_PRECEDENCE_OK'
