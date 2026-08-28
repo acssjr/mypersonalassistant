@@ -3,9 +3,10 @@ $root = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $envPath = Join-Path $root '.env'
 $stateDir = Join-Path $root 'work\openclaw-state'
 $authDir = Join-Path $root 'work\openclaw-auth'
+$codexHomeDir = Join-Path $root 'work\openclaw-codex'
 $workspaceDir = Join-Path $root 'services\assistant\workspace'
 
-New-Item -ItemType Directory -Path $stateDir, $authDir, $workspaceDir -Force | Out-Null
+New-Item -ItemType Directory -Path $stateDir, $authDir, $codexHomeDir, $workspaceDir -Force | Out-Null
 
 if (-not (Test-Path -LiteralPath $envPath)) {
   $token = [Convert]::ToHexString([Security.Cryptography.RandomNumberGenerator]::GetBytes(32)).ToLowerInvariant()
@@ -14,6 +15,7 @@ if (-not (Test-Path -LiteralPath $envPath)) {
     'OPENCLAW_CONFIG_DIR=./work/openclaw-state',
     'OPENCLAW_WORKSPACE_DIR=./services/assistant/workspace',
     'OPENCLAW_AUTH_PROFILE_SECRET_DIR=./work/openclaw-auth',
+    'OPENCLAW_CODEX_HOME_DIR=./work/openclaw-codex',
     'OPENCLAW_GATEWAY_PORT=18789',
     'OPENCLAW_GATEWAY_BIND=lan',
     "OPENCLAW_GATEWAY_TOKEN=$token",

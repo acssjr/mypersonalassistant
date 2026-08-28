@@ -23,12 +23,12 @@ if ($skill -notmatch '(?m)^description:\s*\S') { throw 'Smoke skill description 
 
 $compose = Get-Content -Raw (Join-Path $root 'docker-compose.yml')
 if ($compose -match 'openclaw:latest') { throw 'OpenClaw image must be pinned' }
+if ($compose -notmatch '\$\{OPENCLAW_CODEX_HOME_DIR[^}]*\}:/home/node/\.codex') {
+  throw 'Dedicated Codex auth directory must be mounted'
+}
 if ($compose -notmatch '127\.0\.0\.1:\$\{OPENCLAW_GATEWAY_PORT') { throw 'Gateway port must bind to loopback' }
 
-$trackedCandidates = Get-ChildItem -LiteralPath $root -File -Recurse | Where-Object {
-  $_.FullName -notmatch '[\\/]\.git[\\/]' -and
-  $_.FullName -notmatch '[\\/]work[\\/]'
-}
+$trackedCandidates = git -C $root ls-files | ForEach-Object { Get-Item -LiteralPath (Join-Path $root $_) }
 $secretPattern = '(?i)(sk-[A-Za-z0-9]{20,}|BEGIN (RSA |OPENSSH )?PRIVATE KEY|OPENCLAW_GATEWAY_TOKEN\s*=\s*[a-f0-9]{64})'
 foreach ($file in $trackedCandidates) {
   $content = Get-Content -Raw -LiteralPath $file.FullName -ErrorAction SilentlyContinue

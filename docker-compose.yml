@@ -17,6 +17,7 @@ services:
       - ${OPENCLAW_CONFIG_DIR:-./work/openclaw-state}:/home/node/.openclaw
       - ${OPENCLAW_WORKSPACE_DIR:-./services/assistant/workspace}:/home/node/.openclaw/workspace
       - ${OPENCLAW_AUTH_PROFILE_SECRET_DIR:-./work/openclaw-auth}:/home/node/.config/openclaw
+      - ${OPENCLAW_CODEX_HOME_DIR:-./work/openclaw-codex}:/home/node/.codex
     ports:
       - "127.0.0.1:${OPENCLAW_GATEWAY_PORT:-18789}:18789"
     cap_drop:
@@ -54,6 +55,7 @@ services:
       - ${OPENCLAW_CONFIG_DIR:-./work/openclaw-state}:/home/node/.openclaw
       - ${OPENCLAW_WORKSPACE_DIR:-./services/assistant/workspace}:/home/node/.openclaw/workspace
       - ${OPENCLAW_AUTH_PROFILE_SECRET_DIR:-./work/openclaw-auth}:/home/node/.config/openclaw
+      - ${OPENCLAW_CODEX_HOME_DIR:-./work/openclaw-codex}:/home/node/.codex
     cap_drop:
       - NET_RAW
       - NET_ADMIN
