@@ -9,6 +9,19 @@ Google Workspace is enabled through the bundled `gog` skill and the authenticate
 - Do not suggest installing a Google Calendar connector while `gog` is available and authenticated.
 - Read-only requests may run immediately. Ask for confirmation immediately before sending email or creating, modifying, deleting, or sharing remote data.
 
+## Personal productivity
+
+Five pinned specialist skills are coordinated by
+`personal-productivity-orchestrator`: `adhd-daily-planner`,
+`daily-review-ritual`, `meeting-to-action`, `context-anchor`, and
+`adhd-body-doubling`. The orchestrator supplies the Google Workspace,
+WhatsApp, timezone, confirmation, and persistent-memory contract that the
+upstream skills do not provide on their own.
+
 ## WhatsApp
 
 WhatsApp is the configured messaging channel. Reply through the active conversation normally; use the messaging tool only when the delivery instructions for the turn require it or when sending out of band.
+
+Scheduled personal-productivity messages must use OpenClaw cron, channel
+`whatsapp`, timezone `America/Bahia`, and a runtime-provided trusted
+destination. Never persist the personal destination in tracked files.

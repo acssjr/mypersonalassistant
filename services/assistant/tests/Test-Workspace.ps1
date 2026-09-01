@@ -9,8 +9,14 @@ $required = @(
   'services\assistant\workspace\SOUL.md',
   'services\assistant\workspace\TOOLS.md',
   'services\assistant\workspace\skills\personal-assistant-smoke\SKILL.md',
+  'services\assistant\workspace\skills\personal-productivity-orchestrator\SKILL.md',
+  'services\assistant\workspace\memory\README.md',
+  'services\assistant\workspace\memory\current-task.md',
+  'services\assistant\workspace\context\active\.gitkeep',
+  'services\assistant\skills.lock.json',
   'services\assistant\upstream\openclaw-release.json',
   'scripts\Initialize-LocalRuntime.ps1',
+  'scripts\Install-VpsProductivitySkills.sh',
   'scripts\Test-SkillPrecedence.ps1'
 )
 
@@ -27,6 +33,49 @@ if ($tools -match 'No account integration is enabled') {
 }
 if ($tools -notmatch '(?i)Google Workspace.*gog' -or $tools -notmatch 'gog calendar') {
   throw 'Tool inventory must route Google Workspace requests through gog'
+}
+
+$orchestrator = Get-Content -Raw (Join-Path $root 'services\assistant\workspace\skills\personal-productivity-orchestrator\SKILL.md')
+foreach ($requiredText in @(
+  'adhd-daily-planner',
+  'daily-review-ritual',
+  'meeting-to-action',
+  'context-anchor',
+  'adhd-body-doubling',
+  'gog calendar',
+  'gog tasks',
+  'America/Bahia',
+  'explicit confirmation',
+  'WhatsApp'
+)) {
+  if ($orchestrator -notmatch [regex]::Escape($requiredText)) {
+    throw "Productivity orchestrator is missing contract text: $requiredText"
+  }
+}
+
+$skillLock = Get-Content -Raw (Join-Path $root 'services\assistant\skills.lock.json') | ConvertFrom-Json
+$expectedSkills = @{
+  'adhd-daily-planner' = '1.0.0'
+  'daily-review-ritual' = '1.0.0'
+  'meeting-to-action' = '1.0.0'
+  'context-anchor' = '1.0.0'
+  'adhd-body-doubling' = '2.1.1'
+}
+foreach ($entry in $expectedSkills.GetEnumerator()) {
+  if ($skillLock.skills.$($entry.Key).version -ne $entry.Value) {
+    throw "Pinned version mismatch for $($entry.Key)"
+  }
+}
+
+$installer = Get-Content -Raw (Join-Path $root 'scripts\Install-VpsProductivitySkills.sh')
+if ($installer -notmatch 'personal-assistant-morning-plan' -or $installer -notmatch 'personal-assistant-daily-review') {
+  throw 'VPS installer must declare both personal productivity schedules'
+}
+if ($installer -notmatch '0 8 \* \* \*' -or $installer -notmatch '0 21 \* \* \*' -or $installer -notmatch 'America/Bahia') {
+  throw 'VPS installer must use the approved schedule and timezone'
+}
+if ($installer -match '\+5575\d{8,9}') {
+  throw 'VPS installer must not contain a committed personal WhatsApp number'
 }
 
 $compose = Get-Content -Raw (Join-Path $root 'docker-compose.yml')

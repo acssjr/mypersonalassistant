@@ -1,0 +1,24 @@
+{
+  "skills": {
+    "adhd-daily-planner": {
+      "ref": "@mikecourt/adhd-daily-planner",
+      "version": "1.0.0"
+    },
+    "daily-review-ritual": {
+      "ref": "@itsflow/daily-review-ritual",
+      "version": "1.0.0"
+    },
+    "meeting-to-action": {
+      "ref": "@codedao12/meeting-to-action",
+      "version": "1.0.0"
+    },
+    "context-anchor": {
+      "ref": "@boscoeuk/context-anchor",
+      "version": "1.0.0"
+    },
+    "adhd-body-doubling": {
+      "ref": "@jankutschera/adhd-body-doubling",
+      "version": "2.1.1"
+    }
+  }
+}
