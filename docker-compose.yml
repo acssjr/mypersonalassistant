@@ -19,6 +19,7 @@ services:
       OPENCLAW_WORKSPACE_DIR: /home/node/.openclaw/workspace
       OPENCLAW_GATEWAY_TOKEN: ${OPENCLAW_GATEWAY_TOKEN:-}
       GOG_HOME: /home/node/.openclaw/gog
+      GOG_ACCOUNT: ${GOG_ACCOUNT:-}
       GOG_KEYRING_BACKEND: file
       GOG_KEYRING_PASSWORD: ${GOG_KEYRING_PASSWORD:-}
       TZ: ${OPENCLAW_TZ:-America/Bahia}
@@ -59,6 +60,7 @@ services:
       OPENCLAW_WORKSPACE_DIR: /home/node/.openclaw/workspace
       OPENCLAW_GATEWAY_TOKEN: ${OPENCLAW_GATEWAY_TOKEN:-}
       GOG_HOME: /home/node/.openclaw/gog
+      GOG_ACCOUNT: ${GOG_ACCOUNT:-}
       GOG_KEYRING_BACKEND: file
       GOG_KEYRING_PASSWORD: ${GOG_KEYRING_PASSWORD:-}
       BROWSER: echo
