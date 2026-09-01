@@ -4,12 +4,16 @@ set -euo pipefail
 project_dir="${PERSONAL_ASSISTANT_PROJECT_DIR:-/opt/personal-assistant}"
 whatsapp_to="${PERSONAL_ASSISTANT_WHATSAPP_TO:-}"
 
+cd "$project_dir"
+
+if [[ -z "$whatsapp_to" && -f .env ]]; then
+  whatsapp_to="$(sed -n 's/^PERSONAL_ASSISTANT_WHATSAPP_TO=//p' .env | tail -n 1 | tr -d '\r')"
+fi
+
 if [[ -z "$whatsapp_to" ]]; then
   echo "PERSONAL_ASSISTANT_WHATSAPP_TO is required" >&2
   exit 2
 fi
-
-cd "$project_dir"
 
 install_skill() {
   local skill_ref="$1"

@@ -71,6 +71,9 @@ $installer = Get-Content -Raw (Join-Path $root 'scripts\Install-VpsProductivityS
 if ($installer -notmatch 'personal-assistant-morning-plan' -or $installer -notmatch 'personal-assistant-daily-review') {
   throw 'VPS installer must declare both personal productivity schedules'
 }
+if ($installer -notmatch "sed -n 's/\^PERSONAL_ASSISTANT_WHATSAPP_TO=") {
+  throw 'VPS installer must read the WhatsApp destination from the project .env when it is not exported'
+}
 if ($installer -notmatch '0 8 \* \* \*' -or $installer -notmatch '0 21 \* \* \*' -or $installer -notmatch 'America/Bahia') {
   throw 'VPS installer must use the approved schedule and timezone'
 }
