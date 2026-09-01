@@ -21,6 +21,14 @@ $skill = Get-Content -Raw (Join-Path $root 'services\assistant\workspace\skills\
 if ($skill -notmatch '(?m)^name:\s*personal-assistant-smoke\s*$') { throw 'Smoke skill name is invalid' }
 if ($skill -notmatch '(?m)^description:\s*\S') { throw 'Smoke skill description is missing' }
 
+$tools = Get-Content -Raw (Join-Path $root 'services\assistant\workspace\TOOLS.md')
+if ($tools -match 'No account integration is enabled') {
+  throw 'Tool inventory must not claim that account integrations are disabled'
+}
+if ($tools -notmatch '(?i)Google Workspace.*gog' -or $tools -notmatch 'gog calendar') {
+  throw 'Tool inventory must route Google Workspace requests through gog'
+}
+
 $compose = Get-Content -Raw (Join-Path $root 'docker-compose.yml')
 if ($compose -match 'openclaw:latest') { throw 'OpenClaw image must be pinned' }
 if ($compose -notmatch '\$\{OPENCLAW_CODEX_HOME_DIR[^}]*\}:/home/node/\.codex') {
