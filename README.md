@@ -22,4 +22,15 @@ O acesso ao modelo usa uma autenticação local do Codex armazenada em
 `work/openclaw-codex`. Esse diretório não deve ser enviado ao Git nem copiado
 automaticamente para o VPS; o servidor terá sua própria autenticação.
 
-Google Calendar, WhatsApp e outras contas serão conectadas somente depois da validação local.
+## Google Workspace
+
+O executável `gog` é incorporado à imagem Docker e o estado OAuth fica em
+`work/openclaw-state/gog`, fora do Git. A configuração inicial recomendada é
+autorizar apenas Google Calendar e Google Tasks:
+
+```text
+gog auth setup usuario@gmail.com --services calendar,tasks
+```
+
+O Gateway recebe `GOG_KEYRING_PASSWORD` pelo arquivo `.env`; nunca versione esse
+valor, o JSON do cliente OAuth ou os tokens gerados.

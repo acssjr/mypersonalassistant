@@ -10,8 +10,11 @@ New-Item -ItemType Directory -Path $stateDir, $authDir, $codexHomeDir, $workspac
 
 if (-not (Test-Path -LiteralPath $envPath)) {
   $token = [Convert]::ToHexString([Security.Cryptography.RandomNumberGenerator]::GetBytes(32)).ToLowerInvariant()
+  $gogKeyringPassword = [Convert]::ToHexString([Security.Cryptography.RandomNumberGenerator]::GetBytes(32)).ToLowerInvariant()
   $lines = @(
     'OPENCLAW_IMAGE=ghcr.io/openclaw/openclaw:2026.7.1-2',
+    'GOGCLI_IMAGE=ghcr.io/openclaw/gogcli:v0.34.1',
+    'PERSONAL_ASSISTANT_IMAGE=personal-assistant-openclaw:local',
     'OPENCLAW_CONFIG_DIR=./work/openclaw-state',
     'OPENCLAW_WORKSPACE_DIR=./services/assistant/workspace',
     'OPENCLAW_AUTH_PROFILE_SECRET_DIR=./work/openclaw-auth',
@@ -19,6 +22,7 @@ if (-not (Test-Path -LiteralPath $envPath)) {
     'OPENCLAW_GATEWAY_PORT=18789',
     'OPENCLAW_GATEWAY_BIND=lan',
     "OPENCLAW_GATEWAY_TOKEN=$token",
+    "GOG_KEYRING_PASSWORD=$gogKeyringPassword",
     'OPENCLAW_TZ=America/Bahia'
   )
   Set-Content -LiteralPath $envPath -Value $lines -Encoding utf8NoBOM
