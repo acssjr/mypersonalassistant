@@ -15,6 +15,10 @@ if [[ -z "$whatsapp_to" ]]; then
   exit 2
 fi
 
+# The OpenClaw image runs as node (UID/GID 1000). Deployment copies made by
+# root must not leave the bind-mounted workspace read-only to that user.
+chown -R 1000:1000 "$project_dir/services/assistant/workspace"
+
 install_skill() {
   local skill_ref="$1"
   local skill_version="$2"
