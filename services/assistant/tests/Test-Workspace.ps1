@@ -80,6 +80,9 @@ if ($installer -notmatch "sed -n 's/\^PERSONAL_ASSISTANT_WHATSAPP_TO=") {
 if ($installer -notmatch 'chown -R 1000:1000') {
   throw 'VPS installer must preserve write access for the node user in the mounted workspace'
 }
+if ($installer -notmatch 'context-anchor/scripts/anchor\.sh' -or $installer -notmatch 'adhd-body-doubling/scripts/start-session\.sh') {
+  throw 'VPS installer must make both installed runtime scripts executable'
+}
 if ($installer -notmatch '0 8 \* \* \*' -or $installer -notmatch '0 21 \* \* \*' -or $installer -notmatch 'America/Bahia') {
   throw 'VPS installer must use the approved schedule and timezone'
 }

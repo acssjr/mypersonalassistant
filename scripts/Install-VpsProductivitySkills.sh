@@ -34,6 +34,10 @@ install_skill '@codedao12/meeting-to-action' '1.0.0'
 install_skill '@boscoeuk/context-anchor' '1.0.0'
 install_skill '@jankutschera/adhd-body-doubling' '2.1.1'
 
+chmod 755 \
+  "$project_dir/services/assistant/workspace/skills/context-anchor/scripts/anchor.sh" \
+  "$project_dir/services/assistant/workspace/skills/adhd-body-doubling/scripts/start-session.sh"
+
 morning_message='Use personal-productivity-orchestrator and adhd-daily-planner. Read today calendar and open Google Tasks with gog. Preserve fixed events, select exactly three priority levels, include transition buffers, do not mutate Google data, and send a concise Brazilian Portuguese morning plan. If a source fails, name it and do not invent data.'
 review_message='Use personal-productivity-orchestrator and daily-review-ritual. Read today calendar, Google Tasks, memory/current-task.md, and today local memory log when available. Send a concise Brazilian Portuguese review with confirmed accomplishments, blockers, open loops, and three proposed priorities for tomorrow. Do not mutate Google data.'
 
