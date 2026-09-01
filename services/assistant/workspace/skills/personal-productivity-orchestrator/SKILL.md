@@ -16,7 +16,7 @@ realistic. Never invent events, tasks, completion status, owners, or deadlines.
 | User need | Required specialist |
 |---|---|
 | Plan today, prioritize, reduce overload | `adhd-daily-planner` |
-| Review or close the day | `daily-review-ritual` |
+| Review or close the day | `daily-review` (installed from package `daily-review-ritual`) |
 | Extract decisions and actions from a meeting | `meeting-to-action` |
 | Resume, recover context, find open loops | `context-anchor` |
 | Start focus, get unstuck, body double | `adhd-body-doubling` |
@@ -62,7 +62,7 @@ number in a skill, script, note, or repository file.
 
 1. Read today's Calendar, Tasks, `memory/current-task.md`, and today's daily log
    when present.
-2. Apply `daily-review-ritual` and separate confirmed accomplishments from
+2. Apply `daily-review` and separate confirmed accomplishments from
    inferred progress.
 3. Report blockers, insights, open loops, and three proposed priorities for
    tomorrow.

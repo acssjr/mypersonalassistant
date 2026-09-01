@@ -52,6 +52,9 @@ foreach ($requiredText in @(
     throw "Productivity orchestrator is missing contract text: $requiredText"
   }
 }
+if ($orchestrator -notmatch '`daily-review` \(installed from package `daily-review-ritual`\)') {
+  throw 'Productivity orchestrator must distinguish the daily-review skill name from its package slug'
+}
 
 $skillLock = Get-Content -Raw (Join-Path $root 'services\assistant\skills.lock.json') | ConvertFrom-Json
 $expectedSkills = @{
