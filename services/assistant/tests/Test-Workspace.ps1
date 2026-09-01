@@ -2,6 +2,7 @@ $ErrorActionPreference = 'Stop'
 $root = (Resolve-Path (Join-Path $PSScriptRoot '..\..\..')).Path
 $required = @(
   '.gitignore',
+  '.gitattributes',
   '.env.example',
   'docker-compose.yml',
   'README.md',
@@ -71,6 +72,10 @@ foreach ($entry in $expectedSkills.GetEnumerator()) {
 }
 
 $installer = Get-Content -Raw (Join-Path $root 'scripts\Install-VpsProductivitySkills.sh')
+$attributes = Get-Content -Raw (Join-Path $root '.gitattributes')
+if ($attributes -notmatch '(?m)^\*\.sh\s+text\s+eol=lf\s*$') {
+  throw 'Shell scripts must be pinned to LF line endings for Linux deployment'
+}
 if ($installer -notmatch 'personal-assistant-morning-plan' -or $installer -notmatch 'personal-assistant-daily-review') {
   throw 'VPS installer must declare both personal productivity schedules'
 }
